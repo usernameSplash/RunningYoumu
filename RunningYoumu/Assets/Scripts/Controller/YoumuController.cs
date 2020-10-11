@@ -6,6 +6,7 @@ public class YoumuController : MonoBehaviour
 {
     Animator _ani;
     Rigidbody2D _rigidBody;
+    BoxCollider2D _collider;
     float _jumpPower;
     public bool IsJumping;
 
@@ -17,29 +18,43 @@ public class YoumuController : MonoBehaviour
 
         _rigidBody = GetComponent<Rigidbody2D>();
 
-        _jumpPower = 0f;
+        _collider = GetComponent<BoxCollider2D>();
+
+        _jumpPower = 5.0f;
     }
 
 
     void Update()
     {
-        if (Input.GetButton("Jump"))
+        IsJumping = IsJumpingCheck();
+
+        if (Input.GetButtonDown("Jump") && !IsJumping)
         {
+            Debug.Log("Jump");
             Jump();
         }
     }
 
     void Jump()
     {
-        if (!IsJumping)
-        {
-            _rigidBody.AddForce(Vector3.up * _jumpPower, ForceMode2D.Impulse);
-        }
+        _rigidBody.AddForce(Vector3.up * _jumpPower, ForceMode2D.Impulse);
     }
 
     bool IsJumpingCheck()
     {
         int layermask = 1 << LayerMask.NameToLayer("Floor");
+
+        if (_collider.IsTouchingLayers(layermask))
+        {
+            _ani.SetBool("isJump", false);
+            IsJumping = false;
+        }
+        else
+        {
+            _ani.SetBool("isJump", true);
+            IsJumping = true;
+        }
+
 
         return IsJumping;
     }
