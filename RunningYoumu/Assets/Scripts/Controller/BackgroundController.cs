@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+// WaitForSeconds 객체를 매번 새로 생성하면 프로그램이 느려질 수 있어 Object Pooling 기법을 이용함
 public class BackgroundController : MonoBehaviour
 {
     MeshRenderer[] Quads;

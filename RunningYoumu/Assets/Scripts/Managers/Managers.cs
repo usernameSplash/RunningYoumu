@@ -7,11 +7,13 @@ public class Managers : MonoBehaviour
     static Managers s_instance; // 유일성이 보장된다
     static Managers Instance { get { Init(); return s_instance; } } // 유일한 매니저를 갖고온다
 
-	#region Contents
-	#endregion
+    #region Contents
+    WaitForSecondsManager _seconds = new WaitForSecondsManager();
+    public static WaitForSecondsManager WaitForSeconds { get { return Instance._seconds; } }
+    #endregion
 
-	#region Core
-	DataManager _data = new DataManager();
+    #region Core
+    DataManager _data = new DataManager();
     PoolManager _pool = new PoolManager();
     ResourceManager _resource = new ResourceManager();
     SceneManagerEx _scene = new SceneManagerEx();
@@ -24,12 +26,12 @@ public class Managers : MonoBehaviour
     public static SceneManagerEx Scene { get { return Instance._scene; } }
     public static SoundManager Sound { get { return Instance._sound; } }
     public static UIManager UI { get { return Instance._ui; } }
-	#endregion
+    #endregion
 
-	void Start()
+    void Start()
     {
         Init();
-	}
+    }
 
     void Update()
     {
@@ -40,7 +42,7 @@ public class Managers : MonoBehaviour
     {
         if (s_instance == null)
         {
-			GameObject go = GameObject.Find("@Managers");
+            GameObject go = GameObject.Find("@Managers");
             if (go == null)
             {
                 go = new GameObject { name = "@Managers" };
@@ -53,8 +55,8 @@ public class Managers : MonoBehaviour
             s_instance._data.Init();
             s_instance._pool.Init();
             s_instance._sound.Init();
-        }		
-	}
+        }
+    }
 
     public static void Clear()
     {
